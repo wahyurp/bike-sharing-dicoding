@@ -1,5 +1,6 @@
 import pandas as pd
-pip install babel
+import os
+os.system('pip install babel')
 from babel.dates import format_date
 import matplotlib.pyplot as plt
 import seaborn as sns
