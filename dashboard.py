@@ -1,3 +1,4 @@
+pip install Babel
 import pandas as pd
 from babel.dates import format_date
 import matplotlib.pyplot as plt
