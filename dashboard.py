@@ -1,7 +1,5 @@
 import pandas as pd
-import os
-os.system('pip install babel')
-from babel.dates import format_date
+# from babel.dates import format_date
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
@@ -13,6 +11,17 @@ all_data['dteday'] = pd.to_datetime(all_data['dteday'])
 
 all_data['fulltime'] = all_data['dteday'] + pd.to_timedelta(all_data['hr'], unit='h')
 
+def convert_to_indonesia_date(dt):
+    days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
+    months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+    
+    day = days[dt.weekday()]
+    date = dt.day
+    month = months[dt.month-1]
+    year = dt.year
+    
+    return f"{day}, {date} {month} {year}"
+    
 def create_minimal_df(df):
     minimal_df = df[['dteday', 'fulltime', 'hr', 'temp', 'hum', 'windspeed', 'cnt']]
     return minimal_df
@@ -44,7 +53,7 @@ def create_sum_days_df(df):
 
 def get_stat_days(df):
     temp = []
-    df['konversi'] = df['dteday'].apply(lambda x: format_date(x, 'EEEE, dd MMMM yyyy', locale='id'))
+    df['konversi'] = df['dteday'].apply(convert_to_indonesia_date)
 
     temp_ramai = []
     hari_ramai = df[df['traffic'] == 'Ramai']['cnt'].idxmax()
